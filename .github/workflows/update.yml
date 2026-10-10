@@ -1,0 +1,67 @@
+name: update-forecast
+
+on:
+  schedule:
+    - cron: "20 */3 * * *"      # every 3 hours; the script exits quickly if no new race has appeared
+  workflow_dispatch:             # run it by hand from the Actions tab
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: forecast
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Restore data cache
+        uses: actions/cache@v4
+        with:
+          path: data
+          key: f1-data-${{ github.run_id }}
+          restore-keys: f1-data-
+
+      - name: Refresh data and add any new forecast snapshots
+        run: python src/update.py
+
+      - name: Commit updated forecasts
+        id: commit
+        run: |
+          git config user.name "forecast-bot"
+          git config user.email "forecast-bot@users.noreply.github.com"
+          git add docs/data
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "forecast update"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/configure-pages@v5
+        if: steps.commit.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.commit.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        with:
+          path: docs
+
+      - id: deploy
+        uses: actions/deploy-pages@v4
+        if: steps.commit.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
