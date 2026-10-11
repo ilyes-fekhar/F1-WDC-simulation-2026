@@ -1,5 +1,5 @@
 {
- "after_round": 16,
+ "after_round": 17,
  "alive": [
   "antonelli",
   "hamilton",
@@ -11,386 +11,372 @@
  "backfilled": false,
  "clinch": [
   {
-   "decided_by": 0.0,
-   "decided_here": 0.0,
-   "leader_clinched_by": 0.0,
-   "name": "Singapore",
-   "round": 17
-  },
-  {
-   "decided_by": 0.0099,
-   "decided_here": 0.0099,
-   "leader_clinched_by": 0.0099,
+   "decided_by": 0.02492,
+   "decided_here": 0.02492,
+   "leader_clinched_by": 0.02492,
    "name": "United States",
    "round": 18
   },
   {
-   "decided_by": 0.2746,
-   "decided_here": 0.2647,
-   "leader_clinched_by": 0.2746,
+   "decided_by": 0.57544,
+   "decided_here": 0.55052,
+   "leader_clinched_by": 0.57544,
    "name": "Mexico City",
    "round": 19
   },
   {
-   "decided_by": 0.68008,
-   "decided_here": 0.40548,
-   "leader_clinched_by": 0.68008,
+   "decided_by": 0.9158,
+   "decided_here": 0.34036,
+   "leader_clinched_by": 0.9158,
    "name": "Brazilian",
    "round": 20
   },
   {
-   "decided_by": 0.90746,
-   "decided_here": 0.22738,
-   "leader_clinched_by": 0.90746,
+   "decided_by": 0.9886,
+   "decided_here": 0.0728,
+   "leader_clinched_by": 0.9886,
    "name": "Las Vegas",
    "round": 21
   },
   {
-   "decided_by": 0.97952,
-   "decided_here": 0.07206,
-   "leader_clinched_by": 0.97946,
+   "decided_by": 0.99892,
+   "decided_here": 0.01032,
+   "leader_clinched_by": 0.99892,
    "name": "Qatar",
    "round": 22
   },
   {
-   "decided_by": 0.9996,
-   "decided_here": 0.02008,
-   "leader_clinched_by": 0.99608,
+   "decided_by": 1.0,
+   "decided_here": 0.00108,
+   "leader_clinched_by": 0.99988,
    "name": "Abu Dhabi",
    "round": 23
   }
  ],
  "decided_now": false,
- "generated_at": "2026-10-10T21:53:41Z",
+ "generated_at": "2026-10-11T19:34:25Z",
  "leader": "antonelli",
- "max_remaining": 183,
- "median_clinch_round": 20,
+ "max_remaining": 150,
+ "median_clinch_round": 19,
  "model": {
-  "data_hash": "1782762bd9d8",
+  "data_hash": "4763975f70fb",
   "dnf_prior": 10.0,
   "drift_sd": 0.15,
-  "git": "eed23cf",
+  "git": "05927c8",
   "halflife": 6.0,
   "k_driver": 2.0,
-  "seed": 202616,
+  "seed": 202617,
   "sims": 50000,
   "version": "rungA-1"
  },
  "next_race": {
-  "date": "2026-10-11",
+  "date": "2026-10-25",
   "drivers": [
    {
     "driver": "antonelli",
-    "exp_points": 15.46,
-    "p_podium": 0.6494,
-    "p_points": 0.8587,
-    "p_win": 0.307
-   },
-   {
-    "driver": "russell",
-    "exp_points": 14.26,
-    "p_podium": 0.5847,
-    "p_points": 0.8484,
-    "p_win": 0.2367
+    "exp_points": 15.43,
+    "p_podium": 0.6435,
+    "p_points": 0.8635,
+    "p_win": 0.3044
    },
    {
     "driver": "max_verstappen",
-    "exp_points": 12.34,
-    "p_podium": 0.4765,
-    "p_points": 0.8037,
-    "p_win": 0.1686
+    "exp_points": 13.48,
+    "p_podium": 0.5427,
+    "p_points": 0.8153,
+    "p_win": 0.2215
+   },
+   {
+    "driver": "russell",
+    "exp_points": 13.17,
+    "p_podium": 0.5128,
+    "p_points": 0.8564,
+    "p_win": 0.1785
    },
    {
     "driver": "leclerc",
-    "exp_points": 11.25,
-    "p_podium": 0.3812,
-    "p_points": 0.8452,
-    "p_win": 0.108
+    "exp_points": 11.94,
+    "p_podium": 0.4282,
+    "p_points": 0.8548,
+    "p_win": 0.125
    },
    {
     "driver": "hamilton",
-    "exp_points": 10.61,
-    "p_podium": 0.3438,
-    "p_points": 0.8374,
-    "p_win": 0.0858
+    "exp_points": 10.33,
+    "p_podium": 0.3199,
+    "p_points": 0.8449,
+    "p_win": 0.077
    },
    {
     "driver": "norris",
-    "exp_points": 7.9,
-    "p_podium": 0.2046,
-    "p_points": 0.7498,
-    "p_win": 0.0408
+    "exp_points": 8.1,
+    "p_podium": 0.2144,
+    "p_points": 0.7567,
+    "p_win": 0.0457
    },
    {
     "driver": "hadjar",
-    "exp_points": 7.26,
-    "p_podium": 0.1609,
-    "p_points": 0.7575,
-    "p_win": 0.0281
+    "exp_points": 6.58,
+    "p_podium": 0.1283,
+    "p_points": 0.7427,
+    "p_win": 0.021
    },
    {
     "driver": "piastri",
-    "exp_points": 6.21,
-    "p_podium": 0.1199,
-    "p_points": 0.7137,
-    "p_win": 0.0192
-   },
-   {
-    "driver": "arvid_lindblad",
-    "exp_points": 3.53,
-    "p_podium": 0.0284,
-    "p_points": 0.635,
-    "p_win": 0.0026
+    "exp_points": 6.36,
+    "p_podium": 0.1281,
+    "p_points": 0.7197,
+    "p_win": 0.0209
    },
    {
     "driver": "lawson",
-    "exp_points": 2.56,
-    "p_podium": 0.0135,
-    "p_points": 0.537,
-    "p_win": 0.001
+    "exp_points": 2.91,
+    "p_podium": 0.02,
+    "p_points": 0.5694,
+    "p_win": 0.0016
+   },
+   {
+    "driver": "arvid_lindblad",
+    "exp_points": 2.81,
+    "p_podium": 0.0183,
+    "p_points": 0.5596,
+    "p_win": 0.0016
    },
    {
     "driver": "gasly",
-    "exp_points": 2.45,
-    "p_podium": 0.0132,
-    "p_points": 0.5134,
-    "p_win": 0.0008
+    "exp_points": 2.35,
+    "p_podium": 0.014,
+    "p_points": 0.4895,
+    "p_win": 0.001
    },
    {
     "driver": "hulkenberg",
-    "exp_points": 1.96,
-    "p_podium": 0.01,
-    "p_points": 0.4364,
-    "p_win": 0.0005
+    "exp_points": 2.23,
+    "p_podium": 0.0135,
+    "p_points": 0.4671,
+    "p_win": 0.0008
    },
    {
     "driver": "colapinto",
-    "exp_points": 1.89,
-    "p_podium": 0.0083,
-    "p_points": 0.4329,
-    "p_win": 0.0005
-   },
-   {
-    "driver": "bearman",
-    "exp_points": 0.79,
-    "p_podium": 0.0014,
-    "p_points": 0.2346,
-    "p_win": 0.0001
+    "exp_points": 1.85,
+    "p_podium": 0.0089,
+    "p_points": 0.4221,
+    "p_win": 0.0006
    },
    {
     "driver": "bortoleto",
-    "exp_points": 0.78,
-    "p_podium": 0.0016,
-    "p_points": 0.2268,
+    "exp_points": 0.91,
+    "p_podium": 0.002,
+    "p_points": 0.2552,
+    "p_win": 0.0001
+   },
+   {
+    "driver": "bearman",
+    "exp_points": 0.86,
+    "p_podium": 0.0024,
+    "p_points": 0.2412,
     "p_win": 0.0001
    },
    {
     "driver": "ocon",
-    "exp_points": 0.78,
-    "p_podium": 0.0015,
-    "p_points": 0.2272,
-    "p_win": 0.0001
+    "exp_points": 0.79,
+    "p_podium": 0.0019,
+    "p_points": 0.2253,
+    "p_win": 0.0
    },
    {
     "driver": "sainz",
-    "exp_points": 0.36,
+    "exp_points": 0.37,
     "p_podium": 0.0006,
-    "p_points": 0.1193,
-    "p_win": 0.0001
-   },
-   {
-    "driver": "alonso",
-    "exp_points": 0.25,
-    "p_podium": 0.0002,
-    "p_points": 0.0882,
+    "p_points": 0.1217,
     "p_win": 0.0
    },
    {
     "driver": "albon",
-    "exp_points": 0.19,
+    "exp_points": 0.2,
     "p_podium": 0.0001,
-    "p_points": 0.0698,
+    "p_points": 0.0721,
+    "p_win": 0.0
+   },
+   {
+    "driver": "alonso",
+    "exp_points": 0.19,
+    "p_podium": 0.0003,
+    "p_points": 0.0677,
     "p_win": 0.0
    },
    {
     "driver": "stroll",
-    "exp_points": 0.12,
-    "p_podium": 0.0,
-    "p_points": 0.0462,
+    "exp_points": 0.1,
+    "p_podium": 0.0001,
+    "p_points": 0.0393,
     "p_win": 0.0
    },
    {
     "driver": "perez",
-    "exp_points": 0.03,
+    "exp_points": 0.02,
     "p_podium": 0.0,
-    "p_points": 0.0123,
+    "p_points": 0.0116,
     "p_win": 0.0
    },
    {
     "driver": "bottas",
     "exp_points": 0.01,
     "p_podium": 0.0,
-    "p_points": 0.0065,
+    "p_points": 0.0046,
     "p_win": 0.0
    }
   ],
+  "name": "United States",
+  "round": 18,
+  "sprint": false
+ },
+ "p_comeback": 0.00012,
+ "p_leader": 0.99988,
+ "p_title": {
+  "antonelli": 0.99988
+ },
+ "race": {
+  "date": "2026-10-11",
   "name": "Singapore",
   "round": 17,
   "sprint": true
  },
- "p_comeback": 0.00352,
- "p_leader": 0.99648,
- "p_title": {
-  "antonelli": 0.99648,
-  "russell": 0.00346
- },
- "race": {
-  "date": "2026-10-04",
-  "name": "Bahrain",
-  "round": 16,
-  "sprint": false
- },
  "ratings": [
   {
    "driver": "antonelli",
-   "p_dnf": 0.145,
-   "skill": 1.292,
-   "team": "mercedes"
-  },
-  {
-   "driver": "russell",
-   "p_dnf": 0.145,
-   "skill": 1.194,
+   "p_dnf": 0.138,
+   "skill": 1.261,
    "team": "mercedes"
   },
   {
    "driver": "max_verstappen",
-   "p_dnf": 0.193,
-   "skill": 1.07,
+   "p_dnf": 0.184,
+   "skill": 1.155,
    "team": "red_bull"
   },
   {
+   "driver": "russell",
+   "p_dnf": 0.138,
+   "skill": 1.053,
+   "team": "mercedes"
+  },
+  {
    "driver": "leclerc",
-   "p_dnf": 0.145,
-   "skill": 0.891,
+   "p_dnf": 0.138,
+   "skill": 0.947,
    "team": "ferrari"
   },
   {
    "driver": "hamilton",
-   "p_dnf": 0.145,
-   "skill": 0.838,
+   "p_dnf": 0.138,
+   "skill": 0.797,
    "team": "ferrari"
   },
   {
    "driver": "norris",
-   "p_dnf": 0.217,
-   "skill": 0.628,
+   "p_dnf": 0.206,
+   "skill": 0.653,
+   "team": "mclaren"
+  },
+  {
+   "driver": "piastri",
+   "p_dnf": 0.206,
+   "skill": 0.464,
    "team": "mclaren"
   },
   {
    "driver": "hadjar",
-   "p_dnf": 0.193,
-   "skill": 0.537,
+   "p_dnf": 0.184,
+   "skill": 0.452,
    "team": "red_bull"
   },
   {
-   "driver": "piastri",
-   "p_dnf": 0.217,
-   "skill": 0.431,
-   "team": "mclaren"
+   "driver": "lawson",
+   "p_dnf": 0.093,
+   "skill": -0.098,
+   "team": "rb"
   },
   {
    "driver": "arvid_lindblad",
-   "p_dnf": 0.098,
-   "skill": -0.01,
+   "p_dnf": 0.093,
+   "skill": -0.104,
    "team": "rb"
-  },
-  {
-   "driver": "lawson",
-   "p_dnf": 0.098,
-   "skill": -0.155,
-   "team": "rb"
-  },
-  {
-   "driver": "gasly",
-   "p_dnf": 0.121,
-   "skill": -0.172,
-   "team": "alpine"
   },
   {
    "driver": "hulkenberg",
-   "p_dnf": 0.169,
-   "skill": -0.242,
+   "p_dnf": 0.184,
+   "skill": -0.169,
    "team": "audi"
   },
   {
-   "driver": "colapinto",
-   "p_dnf": 0.121,
-   "skill": -0.281,
+   "driver": "gasly",
+   "p_dnf": 0.138,
+   "skill": -0.171,
    "team": "alpine"
   },
   {
-   "driver": "bearman",
-   "p_dnf": 0.169,
-   "skill": -0.574,
-   "team": "haas"
+   "driver": "colapinto",
+   "p_dnf": 0.138,
+   "skill": -0.277,
+   "team": "alpine"
   },
   {
    "driver": "bortoleto",
-   "p_dnf": 0.169,
-   "skill": -0.585,
+   "p_dnf": 0.184,
+   "skill": -0.502,
    "team": "audi"
   },
   {
+   "driver": "bearman",
+   "p_dnf": 0.161,
+   "skill": -0.545,
+   "team": "haas"
+  },
+  {
    "driver": "ocon",
-   "p_dnf": 0.169,
-   "skill": -0.593,
+   "p_dnf": 0.161,
+   "skill": -0.579,
    "team": "haas"
   },
   {
    "driver": "sainz",
-   "p_dnf": 0.264,
-   "skill": -0.783,
+   "p_dnf": 0.275,
+   "skill": -0.761,
    "team": "williams"
   },
   {
    "driver": "alonso",
-   "p_dnf": 0.431,
-   "skill": -0.816,
+   "p_dnf": 0.434,
+   "skill": -0.847,
    "team": "aston_martin"
   },
   {
    "driver": "albon",
-   "p_dnf": 0.264,
-   "skill": -0.956,
+   "p_dnf": 0.275,
+   "skill": -0.926,
    "team": "williams"
   },
   {
    "driver": "stroll",
-   "p_dnf": 0.431,
-   "skill": -0.999,
+   "p_dnf": 0.434,
+   "skill": -1.02,
    "team": "aston_martin"
   },
   {
    "driver": "perez",
-   "p_dnf": 0.36,
-   "skill": -1.391,
+   "p_dnf": 0.343,
+   "skill": -1.377,
    "team": "cadillac"
   },
   {
    "driver": "bottas",
-   "p_dnf": 0.36,
-   "skill": -1.553,
+   "p_dnf": 0.343,
+   "skill": -1.599,
    "team": "cadillac"
   }
  ],
  "rounds_left": [
-  {
-   "date": "2026-10-11",
-   "name": "Singapore",
-   "round": 17,
-   "sprint": true
-  },
   {
    "date": "2026-10-25",
    "name": "United States",
@@ -432,44 +418,44 @@
  "standings": [
   {
    "driver": "antonelli",
-   "points": 320.0
+   "points": 340.0
   },
   {
    "driver": "russell",
-   "points": 236.0
+   "points": 238.0
   },
   {
    "driver": "hamilton",
-   "points": 214.0
-  },
-  {
-   "driver": "leclerc",
-   "points": 191.0
+   "points": 229.0
   },
   {
    "driver": "max_verstappen",
-   "points": 188.0
+   "points": 221.0
+  },
+  {
+   "driver": "leclerc",
+   "points": 215.0
   },
   {
    "driver": "norris",
-   "points": 188.0
+   "points": 201.0
   },
   {
    "driver": "piastri",
-   "points": 128.0
+   "points": 138.0
   },
   {
    "driver": "hadjar",
-   "points": 96.0
+   "points": 97.0
   },
   {
    "driver": "lawson",
-   "points": 65.0
+   "points": 75.0
   },
   {
    "driver": "gasly",
    "points": 41.0
   }
  ],
- "undecided_tie": 0.0004
+ "undecided_tie": 0.0
 }
