@@ -113,7 +113,7 @@ Runs the locked-settings forecast and the backtests, then saves four PNGs to `ch
 
 **`.github/workflows/update.yml`: automation.** Every 3 hours GitHub runs `update.py`; when a new race is found it commits the new JSON and redeploys `docs/` to GitHub Pages. Needs Pages enabled with source "GitHub Actions" (repository Settings, Pages).
 
-**`docs/index.html`:** a minimal landing page that reads `latest.json`. The full interactive page (before/after comparison, history, scorecard) is the next build.
+**`docs/index.html`:** the live interactive page (no external libraries). A slider shows the forecast after any past race, a before/after view compares any two forecasts, trend charts follow the title chance and the lead vs points available, and tables show the next-race forecast and the scored track record (live vs reconstructed forecasts are labelled). `docs/preview.png` is the link-preview image, refreshed by the workflow after each race.
 
 ### Tests (`tests/`)
 - `test_clinch.py`: arithmetic checks, including the exact 2026 scenarios and the 2023 fastest-lap case.
@@ -152,7 +152,7 @@ Run all with `python -m pytest -q`.
 
 ## 7. What we found
 
-**Arithmetic.** Earliest possible clinch is round 18 (USA): Antonelli sweeps the Singapore sprint, Singapore GP and USA GP while Russell scores at most 17 points. If Antonelli wins everything and Russell is second each time, round 19 (Mexico). A comeback needs Antonelli to average about fifth place while Russell wins every race.
+**Arithmetic.** Earliest possible clinch is round 18 (USA): Antonelli sweeps the Singapore sprint, Singapore GP and USA GP while Russell scores at most 17 points. If Antonelli wins everything and Russell is second each time, round 19 (Mexico). If Russell wins every remaining session (7 GPs and the Singapore sprint, 183 points), Antonelli keeps the title only if he averages about P3 or better: P3 every time gives 431 to 419, P4 every time gives 409 to 419 and loses it. Wins matter because they score most, but the title is decided by total points, not wins.
 
 **A bug we caught.** The 2023 title was first reported decided one round too early. Cause: 2019 to 2024 had a fastest-lap bonus point per GP, which the first version ignored (180 points were available, not 174). Fixed with the `fl` parameter and a regression test.
 

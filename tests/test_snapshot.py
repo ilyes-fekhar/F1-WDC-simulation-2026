@@ -60,3 +60,12 @@ def test_update_is_idempotent_and_flags_live_vs_backfilled():
     assert flags3[11] is False and flags3[12] is False         # earlier live snapshot is never rewritten
     assert len(hist3["scores"]) == 6
     assert np.isfinite([r["win_logloss_model"] for r in hist3["scores"]]).all()
+
+
+def test_scores_include_predicted_podium_and_hits():
+    cal, res, spr = _data(11)
+    hist, _ = snapshot.update_history(None, cal, res, spr, SEASON, sims=300, first_round=6)
+    for r in hist["scores"]:
+        assert len(r["podium_pred"]) == 3 and len(r["podium_actual"]) == 3
+        assert r["podium_hits"] == len(set(r["podium_pred"]) & set(r["podium_actual"]))
+        assert 0 <= r["podium_hits"] <= 3

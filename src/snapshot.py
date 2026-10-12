@@ -147,6 +147,10 @@ def compute_scores(snaps: list[dict], res: pd.DataFrame, season: int) -> list[di
             for tag, q in (("model", pm), ("uniform", pu)):
                 rec[f"{ev}_brier_{tag}"] = round(float(((q - y) ** 2).mean()), 5)
                 rec[f"{ev}_logloss_{tag}"] = round(float(-(y * np.log(q) + (1 - y) * np.log(1 - q)).mean()), 5)
+        pred = list(fc.loc[ds, "p_podium"].sort_values(ascending=False).index[:3])
+        actual = list(act.sort_values("position").index[:3])
+        rec["podium_pred"], rec["podium_actual"] = pred, actual
+        rec["podium_hits"] = len(set(pred) & set(actual))
         winners = act.index[act["position"] == 1]
         rec["favourite"] = str(fc["p_win"].idxmax())
         rec["p_favourite"] = float(fc["p_win"].max())

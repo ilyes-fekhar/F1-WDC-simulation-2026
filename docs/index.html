@@ -3,48 +3,376 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>F1 title forecast</title>
+<title>F1 2026: when does Antonelli clinch the title?</title>
+<meta name="description" content="Live Monte Carlo forecast of the 2026 F1 Drivers' Championship, updated automatically after every race.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="F1 2026: when does Antonelli clinch the title?">
+<meta property="og:description" content="Live Monte Carlo forecast, updated after every race, with a public track record.">
+<meta property="og:image" content="https://ilyes-fekhar.github.io/F1-WDC-simulation-2026/preview.png">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-  body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;color:#1F2933}
-  h1{margin-bottom:4px}.muted{color:#52606D}
-  .card{background:#F3F5F7;border-radius:10px;padding:16px;margin:16px 0;font-size:1.1rem}
-  table{border-collapse:collapse;width:100%}td,th{padding:6px 8px;border-bottom:1px solid #E6E9ED;text-align:left}
+:root{--ink:#1F2933;--muted:#52606D;--bg:#fff;--card:#F3F5F7;--line:#E6E9ED;--teal:#00A19B;--teal2:#006F6B;--grey:#B8BEC6;--red:#D64545}
+@media (prefers-color-scheme:dark){:root{--ink:#E4E7EB;--muted:#9AA5B1;--bg:#12181F;--card:#1B242D;--line:#2B3744;--teal:#2EC4BD;--teal2:#7FE0DB;--grey:#52606D;--red:#F26B6B}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:1.8rem;line-height:1.2;margin:0 0 6px}h2{font-size:1.25rem;margin:38px 0 4px}h3{font-size:1rem;margin:22px 0 4px}
+.muted{color:var(--muted)}.small{font-size:.88rem}
+.hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:18px 0}
+.stat{background:var(--card);border-radius:12px;padding:14px 16px}.stat b{display:block;font-size:1.65rem;line-height:1.25}
+.stat span{color:var(--muted);font-size:.85rem}
+.card{background:var(--card);border-radius:12px;padding:12px 16px;margin:10px 0}
+.badge{display:inline-block;font-size:.72rem;padding:1px 8px;border-radius:99px;border:1px solid var(--grey);color:var(--muted)}
+.badge.live{background:var(--teal2);color:#fff;border-color:var(--teal2)}
+svg{width:100%;height:auto;display:block}
+svg text{fill:var(--ink);font-size:12px}svg text.m{fill:var(--muted)}
+.bar{fill:var(--teal)}.bar.top{fill:var(--teal2)}.bar.a{fill:var(--grey)}
+.grid{stroke:var(--line);stroke-width:1}.axis{stroke:var(--grey)}
+.line1{stroke:var(--teal);fill:none;stroke-width:3}.line2{stroke:var(--red);fill:none;stroke-width:3}
+.dot1{fill:var(--teal)}.dot2{fill:var(--red)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin:0 4px 0 12px;vertical-align:-1px}
+.sw.a{background:var(--grey)}.sw.b{background:var(--teal)}.sw.r{background:var(--red)}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child,th:nth-child(2),td:nth-child(2){text-align:left}
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:10px 0 4px}
+input[type=range]{flex:1;min-width:180px;accent-color:var(--teal)}
+select{padding:4px 8px;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:6px;font:inherit}
+.pos{color:var(--teal2);font-weight:600}.neg{color:var(--red);font-weight:600}
+.scroll{overflow-x:auto}
+a{color:var(--teal2)}
 </style>
 </head>
 <body>
-<h1>F1 title forecast</h1>
+<main>
+<h1>F1 2026: when does Antonelli clinch the title?</h1>
 <p class="muted" id="status">Loading...</p>
-<div id="out"></div>
-<script>
-const name = id => id.split("_").pop().replace(/^./, c => c.toUpperCase());
-const pct = x => (100 * x).toFixed(1) + "%";
-function el(tag, text, parent) { const e = document.createElement(tag); if (text) e.textContent = text; parent.appendChild(e); return e; }
+<div class="hero" id="hero"></div>
 
-fetch("data/latest.json")
-  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(s => {
-    document.getElementById("status").textContent =
-      "After round " + s.after_round + (s.race.name ? " (" + s.race.name + ")" : "") +
-      " | updated " + s.generated_at;
-    const out = document.getElementById("out");
-    const card = el("div", "", out); card.className = "card";
-    el("div", name(s.leader) + " champion: " + pct(s.p_leader) + " | comeback: " + pct(s.p_comeback), card);
-    if (s.clinch.length) {
-      const best = s.clinch.reduce((a, b) => (b.decided_here > a.decided_here ? b : a));
-      el("div", "Most likely decided at round " + best.round + (best.name ? " (" + best.name + ")" : "") +
-         " | " + pct(best.decided_here), card);
-    }
-    const t = el("table", "", out);
-    const head = el("tr", "", t);
-    ["Round", "Race", "Decided here", "Decided by"].forEach(h => el("th", h, head));
-    s.clinch.forEach(c => {
-      const row = el("tr", "", t);
-      [c.round, c.name || "", pct(c.decided_here), pct(c.decided_by)].forEach(v => el("td", String(v), row));
+<h2>When is the title decided?</h2>
+<p class="muted small">Each bar is the chance the championship is mathematically settled in that race. Drag the slider to see what the model believed after any earlier race.</p>
+<div class="controls">
+  <label for="snapRange">Forecast made after round</label>
+  <input id="snapRange" type="range" step="1">
+  <b id="snapLabel"></b>
+</div>
+<div id="snapMeta" class="small muted"></div>
+<div id="chart1"></div>
+
+<h2>What changed after a race?</h2>
+<p class="muted small">Compare two forecasts. Bars show the chance the title is already decided by the end of each race.</p>
+<div class="controls">
+  <label for="selA">Before</label><select id="selA"></select>
+  <label for="selB">After</label><select id="selB"></select>
+  <span id="legend2" class="small"></span>
+</div>
+<div class="card" id="cmpSummary"></div>
+<div id="chart2"></div>
+<div class="scroll"><table id="cmpTable"></table></div>
+
+<h2>The trend, race by race</h2>
+<h3 id="t3a"></h3>
+<div id="chart3a"></div>
+<h3>Lead over the runner-up vs points still available <span class="small muted">(the title is decided once the lead is bigger)</span></h3>
+<div class="small"><span class="sw b" style="margin-left:0"></span>Lead<span class="sw r"></span>Points still available</div>
+<div id="chart3b"></div>
+
+<h2>Next race</h2>
+<p class="muted small" id="nextMeta"></p>
+<div class="card" id="nextPodium"></div>
+<div class="scroll"><table id="nextTable"></table></div>
+
+<h2>Track record</h2>
+<p class="muted small" id="trackMeta"></p>
+<div class="scroll"><table id="trackTable"></table></div>
+
+<h2>About this forecast</h2>
+<div class="card small">
+  <p>The points arithmetic is exact. What is uncertain is how the remaining races go, so the model rates every team and driver from this season's results (recent races count more), estimates how often each team retires, and simulates the rest of the season 50,000 times.</p>
+  <p><span class="badge live">LIVE</span> forecasts were saved before the race they predict. <span class="badge">RECONSTRUCTED</span> forecasts were rebuilt afterwards using only the data available at the time, so they cannot peek at the future, but they were not published in advance.</p>
+  <p>Backtested on every race since 2018 and checked on held-out seasons. Limits: teammates' retirements are modelled as independent, qualifying is not used, and eight past seasons is a small sample for judging season-level calls. Probabilities, not certainties.</p>
+  <p><a href="https://github.com/ilyes-fekhar/F1-WDC-simulation-2026">Code, method and backtest</a></p>
+</div>
+</main>
+
+<script>
+(function () {
+"use strict";
+var NS = "http://www.w3.org/2000/svg";
+var COUNTRY = {Brazilian:"Brazil",Dutch:"Netherlands",Italian:"Italy",Spanish:"Spain",British:"Britain",
+  Austrian:"Austria",Belgian:"Belgium",Hungarian:"Hungary",Japanese:"Japan",Chinese:"China",
+  Canadian:"Canada",Australian:"Australia"};
+var race = function (n) { return (n && COUNTRY[n]) || n || ""; };
+var nm = function (id) { return id.split("_").pop().replace(/^./, function (c) { return c.toUpperCase(); }); };
+var pct = function (x, d) { return (100 * x).toFixed(d === undefined ? 1 : d) + "%"; };
+var $ = function (id) { return document.getElementById(id); };
+function el(tag, text, parent, cls) {
+  var e = document.createElement(tag);
+  if (text !== undefined && text !== null && text !== "") e.textContent = text;
+  if (cls) e.className = cls;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function sv(tag, attrs, parent, text) {
+  var e = document.createElementNS(NS, tag);
+  for (var k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); }
+var lin = function (d0, d1, r0, r1) { return function (v) { return r0 + (v - d0) * (r1 - r0) / ((d1 - d0) || 1); }; };
+function fmtTime(s) { return s.replace("T", " ").replace("Z", " UTC"); }
+
+/* ---------- generic SVG charts ---------- */
+function barChart(box, cats, series, opt) {
+  clear(box);
+  var W = 760, H = opt.h || 330, ml = 44, mr = 12, mt = 14, mb = opt.mb || 60;
+  var svg = sv("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": opt.aria}, box);
+  var all = [];
+  series.forEach(function (s) { s.vals.forEach(function (v) { if (v !== null) all.push(v); }); });
+  var yMax = opt.cap || Math.max(10, Math.ceil(Math.max.apply(null, all.concat([0])) * 1.18 / 10) * 10);
+  var y = lin(0, yMax, H - mb, mt);
+  for (var t = 0; t <= 4; t++) {
+    var gv = yMax * t / 4;
+    sv("line", {x1: ml, x2: W - mr, y1: y(gv), y2: y(gv), "class": "grid"}, svg);
+    sv("text", {x: ml - 6, y: y(gv) + 4, "text-anchor": "end", "class": "m"}, svg, Math.round(gv) + "%");
+  }
+  var band = (W - ml - mr) / cats.length, g = series.length, bw = band * 0.7 / g;
+  cats.forEach(function (c, i) {
+    var x0 = ml + band * i + band * 0.15;
+    series.forEach(function (s, k) {
+      var v = s.vals[i];
+      if (v === null) return;
+      var best = opt.highlight && g === 1 && v === Math.max.apply(null, all);
+      var r = sv("rect", {x: x0 + bw * k, y: y(v), width: Math.max(1, bw - 2), height: Math.max(0, y(0) - y(v)),
+        "class": "bar " + (s.cls || "") + (best ? " top" : "")}, svg);
+      sv("title", {}, r, s.tips[i]);
+      sv("text", {x: x0 + bw * k + (bw - 2) / 2, y: y(v) - 5, "text-anchor": "middle", style: "font-weight:600"},
+        svg, (v > 0 && v < 1) ? v.toFixed(1) + "%" : Math.round(v) + "%");
     });
-    el("p", "Probabilities, not certainties. Rating-based Monte Carlo; method and backtest in the repository README.", out)
-      .className = "muted";
-  })
-  .catch(() => { document.getElementById("status").textContent = "No forecast published yet."; });
+    sv("text", {x: ml + band * i + band / 2, y: H - mb + 16, "text-anchor": "middle"}, svg, c.label);
+    sv("text", {x: ml + band * i + band / 2, y: H - mb + 30, "text-anchor": "middle", "class": "m"}, svg, c.sub || "");
+  });
+  sv("line", {x1: ml, x2: W - mr, y1: y(0), y2: y(0), "class": "axis"}, svg);
+  return {svg: svg, ml: ml, band: band, H: H};
+}
+
+function lineChart(box, xs, series, opt) {
+  clear(box);
+  var W = 760, H = 250, ml = 48, mr = 16, mt = 14, mb = 34;
+  var svg = sv("svg", {viewBox: "0 0 " + W + " " + H, role: "img", "aria-label": opt.aria}, box);
+  var x = lin(xs[0], xs[xs.length - 1], ml, W - mr), y = lin(opt.min, opt.max, H - mb, mt);
+  for (var t = 0; t <= 4; t++) {
+    var v = opt.min + (opt.max - opt.min) * t / 4;
+    sv("line", {x1: ml, x2: W - mr, y1: y(v), y2: y(v), "class": "grid"}, svg);
+    sv("text", {x: ml - 6, y: y(v) + 4, "text-anchor": "end", "class": "m"}, svg, opt.fmt(v));
+  }
+  xs.forEach(function (r) { sv("text", {x: x(r), y: H - 12, "text-anchor": "middle", "class": "m"}, svg, "R" + r); });
+  series.forEach(function (s) {
+    sv("polyline", {points: xs.map(function (r, i) { return x(r) + "," + y(s.vals[i]); }).join(" "), "class": s.cls}, svg);
+    xs.forEach(function (r, i) {
+      var c = sv("circle", {cx: x(r), cy: y(s.vals[i]), r: 4.5, "class": s.dot}, svg);
+      sv("title", {}, c, s.label + " after round " + r + ": " + opt.fmt(s.vals[i]));
+    });
+  });
+}
+
+function fillTable(tbl, head, rows) {
+  clear(tbl);
+  var tr = el("tr", "", el("thead", "", tbl));
+  head.forEach(function (h) { el("th", h, tr); });
+  var tb = el("tbody", "", tbl);
+  rows.forEach(function (r) {
+    var row = el("tr", "", tb);
+    r.forEach(function (cell) {
+      if (cell && typeof cell === "object") el("td", cell.text, row, cell.cls); else el("td", String(cell), row);
+    });
+  });
+}
+
+/* ---------- page ---------- */
+function main(hist) {
+  var snaps = hist.snapshots, by = {};
+  snaps.forEach(function (s) { by[s.after_round] = s; });
+  var L = snaps[snaps.length - 1];
+  var lead = function (s) { return s.standings[0].points - (s.standings[1] ? s.standings[1].points : 0); };
+  var lname = nm(L.leader);
+
+  $("status").textContent = "After round " + L.after_round + (L.race.name ? " (" + race(L.race.name) + ")" : "") +
+    " | updated " + fmtTime(L.generated_at);
+
+  /* hero */
+  var hero = $("hero");
+  function stat(big, small) { var d = el("div", "", hero, "stat"); el("b", big, d); el("span", small, d); }
+  stat(pct(L.p_leader), lname + " wins the title");
+  stat(L.p_comeback < 0.01 ? "under 1%" : pct(L.p_comeback), "chance of a comeback by anyone else");
+  if (L.clinch.length) {
+    var best = L.clinch.reduce(function (a, b) { return b.decided_here > a.decided_here ? b : a; });
+    stat("R" + best.round + " " + race(best.name), "most likely clinch (" + pct(best.decided_here, 0) + " chance)");
+  } else { stat("Complete", "the season is over"); }
+  stat(lead(L) + " / " + L.max_remaining, "lead over runner-up / points still available");
+
+  /* section 1: slider */
+  var rng = $("snapRange");
+  rng.min = snaps[0].after_round; rng.max = L.after_round; rng.value = L.after_round;
+  function drawClinch(s) {
+    var box = $("chart1");
+    if (!s.clinch.length) { clear(box); el("p", "Season complete: nothing left to forecast.", box, "muted"); return; }
+    var cats = s.clinch.map(function (c) { return {label: "R" + c.round, sub: race(c.name)}; });
+    var vals = s.clinch.map(function (c) { return 100 * c.decided_here; });
+    var tips = s.clinch.map(function (c) {
+      return "Round " + c.round + " " + race(c.name) + ": " + pct(c.decided_here) + " decided here, " +
+        pct(c.decided_by) + " decided by the end of it";
+    });
+    var ch = barChart(box, cats, [{vals: vals, tips: tips}],
+      {aria: "Chance the title is decided in each remaining race", highlight: true, mb: 76});
+    sv("text", {x: ch.ml, y: ch.H - 26, "class": "m"}, ch.svg, "Decided by the end of this race:");
+    s.clinch.forEach(function (c, i) {
+      sv("text", {x: ch.ml + ch.band * i + ch.band / 2, y: ch.H - 8, "text-anchor": "middle", style: "font-weight:700"},
+        ch.svg, Math.round(100 * c.decided_by) + "%");
+    });
+  }
+  function setSnap(r) {
+    var s = by[r];
+    $("snapLabel").textContent = "R" + r + (s.race.name ? " " + race(s.race.name) : "");
+    var meta = $("snapMeta"); clear(meta);
+    el("span", s.backfilled ? "RECONSTRUCTED" : "LIVE", meta, s.backfilled ? "badge" : "badge live");
+    var top2 = s.standings.slice(0, 2).map(function (d) { return nm(d.driver) + " " + d.points; }).join(", ");
+    meta.appendChild(document.createTextNode(" " + top2 + " | lead " + lead(s) + " | " + s.max_remaining +
+      " points still available | title chance " + pct(s.p_leader)));
+    drawClinch(s);
+  }
+  rng.addEventListener("input", function () { setSnap(Number(rng.value)); });
+  setSnap(L.after_round);
+
+  /* section 2: compare */
+  var selA = $("selA"), selB = $("selB");
+  snaps.forEach(function (s) {
+    [selA, selB].forEach(function (sel) {
+      var o = el("option", "After R" + s.after_round + (s.race.name ? " " + race(s.race.name) : ""), sel);
+      o.value = s.after_round;
+    });
+  });
+  selB.value = L.after_round;
+  selA.value = snaps.length > 1 ? snaps[snaps.length - 2].after_round : L.after_round;
+  function runCompare() {
+    var a = by[selA.value], b = by[selB.value];
+    var lg = $("legend2"); clear(lg);
+    el("span", "", lg, "sw a"); lg.appendChild(document.createTextNode("After R" + a.after_round));
+    el("span", "", lg, "sw b"); lg.appendChild(document.createTextNode("After R" + b.after_round));
+
+    var sum = $("cmpSummary"); clear(sum);
+    var when = (b.after_round === a.after_round + 1 && b.race.name)
+      ? "After the " + race(b.race.name) + " Grand Prix"
+      : "From after round " + a.after_round + " to after round " + b.after_round;
+    var d = (b.p_leader - a.p_leader) * 100;
+    el("div", when + ": " + lname + "'s title chance went from " + pct(a.p_leader) + " to " + pct(b.p_leader) +
+      "; the median clinch round from " + (a.median_clinch_round || "n/a") + " to " + (b.median_clinch_round || "n/a") +
+      "; the lead over the runner-up from " + lead(a) + " to " + lead(b) + " points.", sum);
+
+    var all = a.clinch.concat(b.clinch), rounds = [];
+    all.forEach(function (c) { if (rounds.indexOf(c.round) < 0) rounds.push(c.round); });
+    rounds.sort(function (p, q) { return p - q; });
+    var get = function (s, r) { var c = s.clinch.filter(function (c) { return c.round === r; })[0]; return c ? 100 * c.decided_by : null; };
+    var nameOf = function (r) { var c = all.filter(function (c) { return c.round === r; })[0]; return c ? race(c.name) : ""; };
+    var tip = function (s, r) { var v = get(s, r); return v === null ? "" : "After R" + s.after_round + ": " + v.toFixed(1) + "% decided by the end of round " + r; };
+    if (!rounds.length) { clear($("chart2")); } else {
+      barChart($("chart2"), rounds.map(function (r) { return {label: "R" + r, sub: nameOf(r)}; }), [
+        {cls: "a", vals: rounds.map(function (r) { return get(a, r); }), tips: rounds.map(function (r) { return tip(a, r); })},
+        {vals: rounds.map(function (r) { return get(b, r); }), tips: rounds.map(function (r) { return tip(b, r); })}
+      ], {aria: "Chance the title is decided by each race, before and after", cap: 100, mb: 52});
+    }
+
+    var ids = {};
+    Object.keys(a.p_title).concat(Object.keys(b.p_title)).forEach(function (k) { ids[k] = 1; });
+    var rows = Object.keys(ids).filter(function (k) { return Math.max(a.p_title[k] || 0, b.p_title[k] || 0) >= 0.001; })
+      .sort(function (p, q) { return (b.p_title[q] || 0) - (b.p_title[p] || 0); }).slice(0, 6)
+      .map(function (k) {
+        var pa = a.p_title[k] || 0, pb = b.p_title[k] || 0, dd = (pb - pa) * 100;
+        return [nm(k), pct(pa), pct(pb), {text: (dd > 0 ? "+" : "") + dd.toFixed(1) + " pts", cls: dd > 0.05 ? "pos" : (dd < -0.05 ? "neg" : "")}];
+      });
+    fillTable($("cmpTable"), ["", "Title chance before", "after", "change"], rows);
+  }
+  selA.addEventListener("change", runCompare);
+  selB.addEventListener("change", runCompare);
+  runCompare();
+
+  /* section 3: trends */
+  var xs = snaps.map(function (s) { return s.after_round; });
+  $("t3a").textContent = "Title chance for " + lname + ", after each race";
+  lineChart($("chart3a"), xs, [{vals: snaps.map(function (s) { return 100 * s.p_leader; }), cls: "line1", dot: "dot1", label: lname + " title chance"}],
+    {min: 0, max: 100, fmt: function (v) { return Math.round(v) + "%"; }, aria: "Title chance after each race"});
+  var maxRem = Math.max.apply(null, snaps.map(function (s) { return s.max_remaining; }));
+  lineChart($("chart3b"), xs, [
+    {vals: snaps.map(lead), cls: "line1", dot: "dot1", label: "Lead"},
+    {vals: snaps.map(function (s) { return s.max_remaining; }), cls: "line2", dot: "dot2", label: "Points still available"}
+  ], {min: 0, max: Math.ceil(maxRem / 50) * 50, fmt: function (v) { return String(Math.round(v)); }, aria: "Lead versus points still available"});
+
+  /* section 4: next race */
+  var nr = L.next_race;
+  if (nr) {
+    $("nextMeta").textContent = "Forecast for round " + nr.round + ", " + race(nr.name) +
+      (nr.sprint ? " (sprint weekend; the figures below are for the Grand Prix)" : "") +
+      ". It is saved now and scored against the real result once the race has been run.";
+    var pod = nr.drivers.slice().sort(function (p, q) { return q.p_podium - p.p_podium; }).slice(0, 3);
+    var pbox = $("nextPodium"); clear(pbox);
+    el("div", "Most likely podium: " + pod.map(function (d, i) { return (i + 1) + ". " + nm(d.driver) + " " + pct(d.p_podium, 0); }).join("  |  "), pbox);
+    el("div", "Each percentage is that driver's own chance of finishing in the top three. The exact order is much less certain.", pbox, "small muted");
+    fillTable($("nextTable"), ["", "Driver", "Win", "Podium", "Scores points", "Expected points"],
+      nr.drivers.slice(0, 10).map(function (d, i) {
+        return [i + 1, nm(d.driver), pct(d.p_win), pct(d.p_podium), pct(d.p_points), d.exp_points.toFixed(1)];
+      }));
+  } else { $("nextMeta").textContent = "The season is complete."; }
+
+  /* section 5: track record */
+  var sc = hist.scores || [];
+  if (!sc.length) {
+    $("trackMeta").textContent = "No races have been scored yet.";
+  } else {
+    var better = function (ev) { return sc.filter(function (r) { return r[ev + "_logloss_model"] < r[ev + "_logloss_uniform"]; }).length; };
+    var favWins = sc.filter(function (r) { return r.favourite === r.winner; }).length;
+    var expWins = sc.reduce(function (t, r) { return t + r.p_favourite; }, 0);
+    var live = sc.filter(function (r) { return r.live; }).length;
+    var hasPod = sc[0].podium_hits !== undefined;
+    var podTxt = "";
+    if (hasPod) {
+      var hits = sc.reduce(function (t, r) { return t + r.podium_hits; }, 0) / sc.length;
+      var chance = sc.reduce(function (t, r) { return t + 9 / r.n_drivers; }, 0) / sc.length;
+      podTxt = " The predicted podium (top three podium chances) contained on average " + hits.toFixed(1) +
+        " of the 3 real podium drivers; picking at random would give " + chance.toFixed(1) + ".";
+    }
+    $("trackMeta").textContent = "Each race is scored against a baseline that treats every driver as equally likely (log loss, lower is better). " +
+      "Across " + sc.length + " races the model was better on win in " + better("win") + ", podium in " + better("podium") +
+      " and points in " + better("points") + ". The model's favourite won " + favWins + " times; its own probabilities implied about " +
+      expWins.toFixed(1) + "." + podTxt + " " + live + " of these " + sc.length + " were live forecasts; the rest were reconstructed.";
+    var head = ["Round", "Race", "Favourite", "Winner"].concat(hasPod ? ["Predicted podium", "Actual podium", "Hits"] : [],
+      ["Win loss (model / baseline)", "Podium loss (model / baseline)", "Type"]);
+    var names = function (a) { return a.map(nm).join(", "); };
+    fillTable($("trackTable"), head,
+      sc.slice().reverse().map(function (r) {
+        var w = r.win_logloss_model < r.win_logloss_uniform, p = r.podium_logloss_model < r.podium_logloss_uniform;
+        return [r.round, race(r.name), nm(r.favourite) + " (" + pct(r.p_favourite, 0) + ")", r.winner ? nm(r.winner) : ""].concat(
+          hasPod ? [names(r.podium_pred), names(r.podium_actual), r.podium_hits + "/3"] : [],
+          [{text: r.win_logloss_model.toFixed(3) + " / " + r.win_logloss_uniform.toFixed(3), cls: w ? "pos" : "neg"},
+           {text: r.podium_logloss_model.toFixed(3) + " / " + r.podium_logloss_uniform.toFixed(3), cls: p ? "pos" : "neg"},
+           r.live ? "LIVE" : "reconstructed"]);
+      }));
+  }
+}
+
+function start() {
+  fetch("data/index.json").then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (idx) { return fetch("data/history-" + idx.latest_season + ".json"); })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function (hist) {
+      if (!hist.snapshots || !hist.snapshots.length) throw new Error("empty");
+      main(hist);
+    })
+    .catch(function () { $("status").textContent = "No forecast published yet."; });
+}
+start();
+})();
 </script>
 </body>
 </html>

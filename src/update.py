@@ -29,6 +29,7 @@ def main() -> None:
     ap.add_argument("--sims", type=int, default=50000)
     ap.add_argument("--first-round", type=int, default=6)
     ap.add_argument("--no-ingest", action="store_true")
+    ap.add_argument("--rescore", action="store_true", help="only recompute the scorecard; snapshots untouched")
     ap.add_argument("--force", action="store_true", help="rebuild every snapshot (loses 'live' flags)")
     a = ap.parse_args()
 
@@ -39,6 +40,14 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     path = OUT / f"history-{season}.json"
     hist = json.loads(path.read_text()) if path.exists() else None
+
+    if a.rescore:
+        if hist is None:
+            sys.exit("nothing to rescore: no history file yet")
+        hist["scores"] = snapshot.compute_scores(hist["snapshots"], res, season)
+        path.write_text(dump(hist))
+        print(f"Rescored {len(hist['scores'])} races.")
+        return
 
     hist, changed = snapshot.update_history(hist, cal, res, spr, season, a.sims,
                                             first_round=a.first_round, force=a.force)

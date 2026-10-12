@@ -54,6 +54,13 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Refresh link-preview image
+        if: steps.commit.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true          # a chart problem must never block a forecast update
+        run: |
+          python src/make_charts.py --skip-backtest
+          cp charts/clinch_timeline.png docs/preview.png
+
       - uses: actions/configure-pages@v5
         if: steps.commit.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
 
